@@ -1,0 +1,30 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/fish
+
+# Fisher
+curl -sL https://git.io/fisher | source
+fisher install jorgebucaran/fisher
+fisher install jethrokuan/z
+
+# Starship
+curl -sS https://starship.rs/install.sh | sh -s -- -y
+echo "starship init fish | source" >> ~/.config/fish/config.fish
+
+# fnm
+brew install fnm
+
+# Node.js Tools
+fnm install 17
+fnm use 17
+
+brew install pnpm
+echo "set -Ux PNPM_HOME \"$HOME/.local/share/pnpm\"" >> ~/.config/fish/conf.d/pnpm.fish
+
+pnpm install -g typescript
+pnpm install -g eslint
+pnpm install -g prettier
+
+{{ else -}}
+#!/bin/sh
+echo "Unsupported OS: {{ .chezmoi.os }}"
+{{ end -}}
