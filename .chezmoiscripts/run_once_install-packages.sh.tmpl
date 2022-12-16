@@ -10,15 +10,20 @@ fisher install jethrokuan/z
 curl -sS https://starship.rs/install.sh | sh -s -- -y
 echo "starship init fish | source" >> ~/.config/fish/config.fish
 
-# fnm
+# Node.js Tools
 brew install fnm
 
-# Node.js Tools
+echo "fnm env --shell fish | source" >> ~/.config/fish/conf.d/fnm.fish
+source ~/.config/fish/conf.d/fnm.fish
+source ~/.config/fish/config.fish
+
 fnm install 17
 fnm use 17
 
 brew install pnpm
 echo "set -Ux PNPM_HOME \"$HOME/.local/share/pnpm\"" >> ~/.config/fish/conf.d/pnpm.fish
+echo "set -U fish_user_paths \"$HOME/.local/share/pnpm\" $fish_uesr_path" >> ~/.config/fish/conf.d/pnpm.fish
+source ~/.config/fish/conf.d/pnpm.fish
 
 pnpm install -g typescript
 pnpm install -g eslint

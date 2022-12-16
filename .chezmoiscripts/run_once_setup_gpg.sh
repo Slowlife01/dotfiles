@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo ""
 read -p "🔑 Do you want to setup GPG key now? [y/N] " -n 1 -r
 echo ""
 

@@ -7,11 +7,13 @@ echo "🤚  This script will setup .dotfiles for you."
 read -n 1 -r -s -p $'    Press any key to continue or Ctrl+C to abort...\n\n'
 
 # Install Homebrew
-command -v brew >/dev/null 2>&1 ||
-  (echo '🍺  Installing Homebrew' && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)")
+if ! command -v brew >/dev/null 2>&1; then
+   echo '🍺  Installing Homebrew' && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
 # Install Fish
-command -v fish >/dev/null 2>&1 ||
+brew list fish >/dev/null 2>&1 ||
   (echo '🐟  Installing Fish' && brew install fish)
 
 # Install chezmoi
@@ -20,11 +22,9 @@ command -v chezmoi >/dev/null 2>&1 ||
 
 if [ -d "$HOME/.local/share/chezmoi/.git" ]; then
   echo "🚸  chezmoi already initialized"
-  echo "    Reinitialize with: 'chezmoi init https://github.com/chimurai/dotfiles.git'"
+  echo "    Reinitialize with: 'chezmoi init https://github.com/Slowlife01/dotfiles.git'"
 else
-  echo "🚀  Initialize dotfiles with:"
-  echo "    chezmoi init https://github.com/chimurai/dotfiles.git"
+  chezmoi init https://github.com/Slowlife01/dotfiles.git
 fi
 
-echo ""
-echo "Done."
+chezmoi apply
